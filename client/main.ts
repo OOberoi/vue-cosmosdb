@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from './App';
+import App from './App.vue';
 // import { HeroList } from './components/HeroList.vue';
 
 new Vue({
