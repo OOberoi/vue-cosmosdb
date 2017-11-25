@@ -32,8 +32,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-// import Component from 'vue-class-component';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import Component from 'vue-class-component';
+import { Prop, Watch } from 'vue-property-decorator';
 
 import HeroDetail from './HeroDetail.vue';
 import { heroService } from '../hero.service';
