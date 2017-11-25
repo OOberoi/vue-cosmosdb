@@ -39,11 +39,8 @@ import HeroDetail from './HeroDetail.vue';
 import { heroService } from '../hero.service';
 import { Hero } from '../hero';
 
-// The @Component decorator indicates the class is a Vue component
 @Component({
-  components: {
-    HeroDetail
-  }
+  components: { HeroDetail }
 })
 export default class HeroList extends Vue {
   addingHero = false;

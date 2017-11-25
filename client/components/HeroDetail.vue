@@ -27,7 +27,6 @@ import Vue from 'vue';
 // import Component from 'vue-class-component';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 
-// The @Component decorator indicates the class is a Vue component
 @Component({})
 export default class HeroDetail extends Vue {
   @Prop() hero: { type: Object };
@@ -38,6 +37,11 @@ export default class HeroDetail extends Vue {
   onHeroChanged(value: string, oldValue: string) {
     this.editingHero = this.cloneIt();
   }
+
+  $refs: {
+    id: HTMLElement;
+    name: HTMLElement;
+  };
 
   addHero() {
     let hero = this.editingHero;
@@ -72,11 +76,6 @@ export default class HeroDetail extends Vue {
     let hero = this.editingHero;
     this.emitRefresh('update');
   }
-
-  $refs: {
-    id: HTMLElement;
-    name: HTMLElement;
-  };
 }
 </script>
 
