@@ -30,7 +30,7 @@ import { Hero } from '../hero';
 
 @Component({})
 export default class HeroDetail extends Vue {
-  @Prop() hero: { type: Object };
+  @Prop() hero: Hero;
   addingHero = !this.hero;
   editingHero: Hero | null;
 
@@ -55,7 +55,7 @@ export default class HeroDetail extends Vue {
   }
 
   cloneIt() {
-    return Object.assign(<Hero>{}, this.hero);
+    return Object.assign({}, this.hero);
   }
 
   created() {
@@ -82,7 +82,7 @@ export default class HeroDetail extends Vue {
       this.updateHero();
     }
   }
-  
+
   updateHero() {
     const hero = <Hero>this.editingHero;
     this.emitRefresh('update', hero);
