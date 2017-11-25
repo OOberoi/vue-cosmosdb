@@ -67,10 +67,9 @@ export default class HeroList extends Vue {
     this.selectedHero = null;
     return heroService.getHeroes().then(response => (this.heroes = response.data));
   }
-  heroChanged(arg: { hero: Hero; mode: string }) {
-    const hero = arg.hero;
+  heroChanged(mode: string, hero: Hero) {
     console.log('hero changed', hero);
-    if (arg.mode === 'add') {
+    if (mode === 'add') {
       heroService.addHero(hero).then(() => this.heroes.push(hero));
     } else {
       heroService.updateHero(hero).then(() => {

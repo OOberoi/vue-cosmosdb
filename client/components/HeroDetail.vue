@@ -25,13 +25,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Prop, Watch } from 'vue-property-decorator';
+import { Emit, Prop, Watch } from 'vue-property-decorator';
+import { Hero } from '../hero';
 
 @Component({})
 export default class HeroDetail extends Vue {
   @Prop() hero: { type: Object };
   addingHero = !this.hero;
-  editingHero: {} | undefined = this.cloneIt();
+  editingHero: Hero | null;
 
   @Watch('hero')
   onHeroChanged(value: string, oldValue: string) {
@@ -44,20 +45,28 @@ export default class HeroDetail extends Vue {
   };
 
   addHero() {
-    let hero = this.editingHero;
-    this.emitRefresh('add');
+    const hero = <Hero>this.editingHero;
+    this.emitRefresh('add', hero);
   }
+
+  @Emit('unselect')
   clear() {
-    this.$emit('unselect');
-    this.editingHero = undefined;
+    this.editingHero = null;
   }
+
   cloneIt() {
-    return Object.assign({}, this.hero);
+    return Object.assign(<Hero>{}, this.hero);
   }
-  emitRefresh(mode: string) {
-    this.$emit('heroChanged', { mode: mode, hero: this.editingHero });
+
+  created() {
+    this.editingHero = this.cloneIt();
+  }
+
+  @Emit('heroChanged')
+  emitRefresh(mode: string, hero: Hero) {
     this.clear();
   }
+
   mounted() {
     if (this.addingHero && this.editingHero) {
       this.$refs.id.focus();
@@ -65,6 +74,7 @@ export default class HeroDetail extends Vue {
       this.$refs.name.focus();
     }
   }
+
   save() {
     if (this.addingHero) {
       this.addHero();
@@ -72,9 +82,10 @@ export default class HeroDetail extends Vue {
       this.updateHero();
     }
   }
+  
   updateHero() {
-    let hero = this.editingHero;
-    this.emitRefresh('update');
+    const hero = <Hero>this.editingHero;
+    this.emitRefresh('update', hero);
   }
 }
 </script>
