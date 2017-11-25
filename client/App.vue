@@ -11,11 +11,8 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import HeroList from './components/HeroList.vue';
 
-// The @Component decorator indicates the class is a Vue component
 @Component({
-  components: {
-    HeroList
-  }
+  components: { HeroList }
 })
 export default class App extends Vue {
   title: string;
