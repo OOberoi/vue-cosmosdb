@@ -33,6 +33,7 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 
 import HeroDetail from './HeroDetail.vue';
 import { heroService } from '../hero.service';
+import { Hero } from '../hero';
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
@@ -42,29 +43,29 @@ import { heroService } from '../hero.service';
 })
 export default class HeroList extends Vue {
   addingHero = false;
-  selectedHero = null;
-  heroes = this.getHeroes();
+  selectedHero?: Hero;
+  heroes: Hero[] = [];
 
   unselect() {
     this.addingHero = false;
-    this.selectedHero = null;
+    this.selectedHero = undefined;
   }
   enableAddMode() {
     this.addingHero = true;
-    this.selectedHero = null;
+    this.selectedHero = undefined;
   }
-  deleteHero(hero) {
-    return heroService.deleteHero(hero.id).then(() => {
+  deleteHero(hero: Hero) {
+    return heroService.deleteHero(hero).then(() => {
       this.heroes = this.heroes.filter(h => h !== hero);
       if (this.selectedHero === hero) {
-        this.selectedHero = null;
+        this.selectedHero = undefined;
       }
     });
   }
-  onSelect(hero) {
+  onSelect(hero: Hero) {
     this.selectedHero = hero;
   }
-  heroChanged(arg) {
+  heroChanged(arg: {hero: Hero, mode: string}) {
     const hero = arg.hero;
     console.log('hero changed', hero);
     if (arg.mode === 'add') {
@@ -78,7 +79,7 @@ export default class HeroList extends Vue {
   }
   getHeroes() {
     this.heroes = [];
-    this.selectedHero = null;
+    this.selectedHero = undefined;
     return heroService.getHeroes().then(response => (this.heroes = response.data));
   }
 }

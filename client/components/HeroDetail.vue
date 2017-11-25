@@ -50,7 +50,7 @@ export default class HeroDetail extends Vue {
   cloneIt() {
     return Object.assign({}, this.hero);
   }
-  emitRefresh(mode) {
+  emitRefresh(mode: string) {
     this.$emit('heroChanged', { mode: mode, hero: this.editingHero });
     this.clear();
   }

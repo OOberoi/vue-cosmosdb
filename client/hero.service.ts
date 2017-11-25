@@ -1,22 +1,24 @@
 import axios from 'axios';
 
+import { Hero } from './hero';
+
 const api = 'api';
 
 class HeroService {
   constructor() {
     console.log('creating new instance of hero.service');
   }
-  
-  deleteHero(hero) {
+
+  deleteHero(hero: Hero) {
     return axios.delete(`${api}/hero/${hero.id}`);
   }
   getHeroes() {
-    return axios.get(`${api}/heroes`);
+    return axios.get<Hero[]>(`${api}/heroes`);
   }
-  addHero(hero) {
+  addHero(hero: Hero) {
     return axios.post(`${api}/hero/`, { hero });
   }
-  updateHero(hero) {
+  updateHero(hero: Hero) {
     return axios.put(`${api}/hero/${hero.id}`, { hero });
   }
 }
