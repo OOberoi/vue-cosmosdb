@@ -34,8 +34,7 @@ export default class HeroDetail extends Vue {
   addingHero = !this.hero;
   editingHero: Hero | null;
 
-  @Watch('hero')
-  onHeroChanged(value: string, oldValue: string) {
+  @Watch('hero') onHeroChanged(value: string, oldValue: string) {
     this.editingHero = this.cloneIt();
   }
 
@@ -49,8 +48,7 @@ export default class HeroDetail extends Vue {
     this.emitRefresh('add', hero);
   }
 
-  @Emit('unselect')
-  clear() {
+  @Emit('unselect') clear() {
     this.editingHero = null;
   }
 
@@ -62,8 +60,7 @@ export default class HeroDetail extends Vue {
     this.editingHero = this.cloneIt();
   }
 
-  @Emit('heroChanged')
-  emitRefresh(mode: string, hero: Hero) {
+  @Emit('heroChanged') emitRefresh(mode: string, hero: Hero) {
     this.clear();
   }
 
