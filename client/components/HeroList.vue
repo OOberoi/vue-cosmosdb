@@ -4,20 +4,20 @@
       <button @click="getHeroes">Refresh</button>
       <button @click="enableAddMode" v-if="!addingHero && !selectedHero">Add</button>
     </div>
-    <ul class="heroes" v-if="heroes && heroes.length">
-      <li v-for="hero in heroes" :key="hero.id"
-        class="hero-container"
-        :class="{selected: hero === selectedHero}">
-        <div class="hero-element">
-          <div class="badge" >{{hero.id}}</div>
-          <div class="hero-text" @click="onSelect(hero)">
-            <div class="name">{{hero.name}}</div>
-            <div class="saying">{{hero.saying}}</div>
+      <ul class="heroes" v-if="heroes && heroes.length">
+        <li v-for="hero in heroes" :key="hero.id"
+          class="hero-container"
+          :class="{selected: hero === selectedHero}">
+          <div class="hero-element">
+            <div class="badge" >{{hero.id}}</div>
+            <div class="hero-text" @click="onSelect(hero)">
+              <div class="name">{{hero.name}}</div>
+              <div class="saying">{{hero.saying}}</div>
+            </div>
           </div>
-        </div>
-        <button class="delete-button" @click="deleteHero(hero)">Delete</button>
-      </li>
-    </ul>
+          <button class="delete-button" @click="deleteHero(hero)">Delete</button>
+        </li>
+      </ul>
     <HeroDetail
       v-if="selectedHero || addingHero"
       :hero="selectedHero"
@@ -43,29 +43,30 @@ import { Hero } from '../hero';
 })
 export default class HeroList extends Vue {
   addingHero = false;
-  selectedHero?: Hero;
+  selectedHero: Hero | null = null;
   heroes: Hero[] = [];
 
-  unselect() {
-    this.addingHero = false;
-    this.selectedHero = undefined;
-  }
-  enableAddMode() {
-    this.addingHero = true;
-    this.selectedHero = undefined;
+  created() {
+    this.getHeroes();
   }
   deleteHero(hero: Hero) {
     return heroService.deleteHero(hero).then(() => {
       this.heroes = this.heroes.filter(h => h !== hero);
       if (this.selectedHero === hero) {
-        this.selectedHero = undefined;
+        this.selectedHero = null;
       }
     });
   }
-  onSelect(hero: Hero) {
-    this.selectedHero = hero;
+  enableAddMode() {
+    this.addingHero = true;
+    this.selectedHero = null;
   }
-  heroChanged(arg: {hero: Hero, mode: string}) {
+  getHeroes() {
+    this.heroes = [];
+    this.selectedHero = null;
+    return heroService.getHeroes().then(response => (this.heroes = response.data));
+  }
+  heroChanged(arg: { hero: Hero; mode: string }) {
     const hero = arg.hero;
     console.log('hero changed', hero);
     if (arg.mode === 'add') {
@@ -77,10 +78,12 @@ export default class HeroList extends Vue {
       });
     }
   }
-  getHeroes() {
-    this.heroes = [];
-    this.selectedHero = undefined;
-    return heroService.getHeroes().then(response => (this.heroes = response.data));
+  onSelect(hero: Hero) {
+    this.selectedHero = hero;
+  }
+  unselect() {
+    this.addingHero = false;
+    this.selectedHero = null;
   }
 }
 </script>
