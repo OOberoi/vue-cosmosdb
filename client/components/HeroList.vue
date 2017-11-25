@@ -4,6 +4,7 @@
       <button @click="getHeroes">Refresh</button>
       <button @click="enableAddMode" v-if="!addingHero && !selectedHero">Add</button>
     </div>
+    <transition name="fade">
       <ul class="heroes" v-if="heroes && heroes.length">
         <li v-for="hero in heroes" :key="hero.id"
           class="hero-container"
@@ -18,11 +19,14 @@
           <button class="delete-button" @click="deleteHero(hero)">Delete</button>
         </li>
       </ul>
+    </transition>
+    <transition name="fade">
     <HeroDetail
       v-if="selectedHero || addingHero"
       :hero="selectedHero"
       @unselect="unselect"
       @heroChanged="heroChanged"></HeroDetail>
+    </transition>
   </div>
 </template>
 
