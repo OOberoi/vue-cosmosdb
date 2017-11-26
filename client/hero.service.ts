@@ -1,14 +1,9 @@
 import axios from 'axios';
-
 import { Hero } from './hero';
 
 const api = 'api';
 
 class HeroService {
-  constructor() {
-    console.log('creating new instance of hero.service');
-  }
-
   deleteHero(hero: Hero) {
     return axios.delete(`${api}/hero/${hero.id}`);
   }

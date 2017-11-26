@@ -43,12 +43,13 @@ import { Hero } from '../hero';
 })
 export default class HeroList extends Vue {
   addingHero = false;
+  heroes: Hero[] = [];
   selectedHero: Hero | null = null;
-  heroes: Hero[] = <Hero[]>[];
 
   created() {
     this.getHeroes();
   }
+
   deleteHero(hero: Hero) {
     return heroService.deleteHero(hero).then(() => {
       this.heroes = this.heroes.filter(h => h !== hero);
@@ -57,17 +58,19 @@ export default class HeroList extends Vue {
       }
     });
   }
+
   enableAddMode() {
     this.addingHero = true;
     this.selectedHero = null;
   }
+
   getHeroes() {
     this.heroes = [];
     this.selectedHero = null;
     return heroService.getHeroes().then(response => (this.heroes = response.data));
   }
+
   heroChanged(mode: string, hero: Hero) {
-    console.log('hero changed', hero);
     if (mode === 'add') {
       heroService.addHero(hero).then(() => this.heroes.push(hero));
     } else {
@@ -77,9 +80,11 @@ export default class HeroList extends Vue {
       });
     }
   }
+
   onSelect(hero: Hero) {
     this.selectedHero = hero;
   }
+
   unselect() {
     this.addingHero = false;
     this.selectedHero = null;
