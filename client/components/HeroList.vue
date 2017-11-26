@@ -32,8 +32,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
-import { Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 
 import HeroDetail from './HeroDetail.vue';
 import { heroService } from '../hero.service';
@@ -45,7 +44,7 @@ import { Hero } from '../hero';
 export default class HeroList extends Vue {
   addingHero = false;
   selectedHero: Hero | null = null;
-  heroes: Hero[] = [];
+  heroes: Hero[] = <Hero[]>[];
 
   created() {
     this.getHeroes();
